@@ -53,7 +53,7 @@ export default function TimeSeriesChart({ regions, historicalData, state }: Time
       formatter: (params: any) => {
         let res = `<div style="font-weight: 700; border-bottom: 1px solid #E5E5E5; padding-bottom: 5px; margin-bottom: 5px;">Year: ${params[0].name}</div>`;
         params.forEach((item: any) => {
-          const val = state.activeMetric === 'affordability' ? item.value?.toFixed(2) : formatCurrency(item.value);
+          const val = state.activeMetric === 'affordability' ? (item.value ? item.value.toFixed(2) + 'x' : 'N/A') : formatCurrency(item.value);
           res += `<div style="display: flex; justify-content: space-between; gap: 15px;">
             <span>${item.marker} ${item.seriesName}</span>
             <span style="font-weight: 700; font-family: monospace;">${val}</span>
@@ -66,7 +66,9 @@ export default function TimeSeriesChart({ regions, historicalData, state }: Time
       data: ['Composite Benchmark', ...regionsToShow.map(r => r.name)],
       bottom: 0,
       icon: 'circle',
-      textStyle: { fontSize: 10, fontWeight: 'bold' }
+      textStyle: { fontSize: 10, fontWeight: 'bold' },
+      padding: [10, 0, 0, 0], // Add some padding
+      type: 'scroll' // Enable scrolling if too many regions
     },
     grid: {
       left: '3%',

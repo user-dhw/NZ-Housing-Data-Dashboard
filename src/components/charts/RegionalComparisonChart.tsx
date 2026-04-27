@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactECharts from 'echarts-for-react';
 import { Region, HousingMetric, DashboardState } from '../../types';
-import { formatCurrency, getMetricLabel } from '../../utils/dataHelpers';
+import { formatCurrency, formatCompact, getMetricLabel } from '../../utils/dataHelpers';
 
 interface RegionalComparisonChartProps {
   regions: Region[];
@@ -45,7 +45,7 @@ export default function RegionalComparisonChart({ regions, historicalData, state
     xAxis: {
       type: 'value',
       axisLabel: { 
-        formatter: (value: number) => state.activeMetric === 'affordability' ? value : formatCurrency(value),
+        formatter: (value: number) => state.activeMetric === 'affordability' ? value : formatCompact(value),
         color: '#9E9E9E'
       },
       splitLine: { lineStyle: { type: 'dashed', color: '#F0F0F0' } }
@@ -80,7 +80,7 @@ export default function RegionalComparisonChart({ regions, historicalData, state
         label: {
           show: true,
           position: 'right',
-          formatter: (params: any) => state.activeMetric === 'affordability' ? params.value.toFixed(2) : formatCurrency(params.value),
+          formatter: (params: any) => state.activeMetric === 'affordability' ? params.value.toFixed(1) + 'x' : formatCompact(params.value),
           fontSize: 10,
           fontWeight: 'bold',
           color: '#1e293b'
