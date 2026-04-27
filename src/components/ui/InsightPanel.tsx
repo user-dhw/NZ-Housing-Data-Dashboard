@@ -82,37 +82,55 @@ export default function InsightPanel({ regions, historicalData, state }: Insight
   const highestValue = growthStats.length > 0 ? [...growthStats as any].sort((a,b) => b.value - a.value)[0] : null;
 
   return (
-    <div className="bg-white rounded-3xl p-6 border border-slate-200 h-full shadow-sm relative overflow-hidden flex flex-col">
-      <div className="flex items-center gap-3 mb-6 relative z-10">
-        <div className="w-10 h-10 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center border border-blue-100 shadow-sm">
-          <AlertCircle size={20} />
+    <div className="bg-white rounded-3xl p-6 border border-slate-200 h-full shadow-[0_8px_30px_rgb(0,0,0,0.04)] relative overflow-hidden flex flex-col">
+      <div className="flex items-center justify-between mb-6 relative z-10">
+        <div className="flex items-center gap-3">
+          <div className="w-10 h-10 rounded-xl bg-blue-600 text-white flex items-center justify-center shadow-lg shadow-blue-600/30">
+            <Zap size={20} fill="currentColor" />
+          </div>
+          <div>
+            <h3 className="text-[9px] font-black uppercase tracking-[0.2em] text-blue-600 mb-0.5">Intelligence Layer</h3>
+            <p className="text-xl font-black tracking-tight text-slate-800">Key Narratives</p>
+          </div>
         </div>
-        <div>
-          <h3 className="text-[9px] font-bold uppercase tracking-[0.2em] text-blue-600 mb-0.5">Intelligence Layer</h3>
-          <p className="text-lg font-bold tracking-tight text-slate-800">Market Analysis</p>
+        <div className="text-[9px] font-black text-slate-400 uppercase bg-slate-100 px-2 py-1 rounded-md tracking-widest">
+           v2025.4
         </div>
       </div>
 
-      <div className="flex-1 overflow-y-auto space-y-4 relative z-10 pr-2 custom-scrollbar">
+      <div className="flex-1 overflow-y-auto space-y-3 relative z-10 pr-2 custom-scrollbar">
         {dynamicInsights.map((insight, i) => (
-          <div key={i} className="bg-slate-50 border border-slate-100 rounded-xl p-4 hover:border-blue-200 transition-colors">
-            <div className="flex gap-3">
-              <span className="text-blue-600 font-mono text-xs mt-0.5 shrink-0">0{i+1}</span>
-              <p className="text-xs leading-relaxed text-slate-600 font-semibold">{insight}</p>
+          <div key={i} className="group bg-slate-50 border border-slate-100 rounded-2xl p-4 hover:bg-white hover:border-blue-200 transition-all duration-300">
+            <div className="flex gap-4">
+              <span className="text-blue-600 font-mono text-[10px] font-black mt-1 py-1 px-1.5 bg-blue-50 rounded-md shrink-0 h-fit">0{i+1}</span>
+              <p className="text-xs leading-relaxed text-slate-600 font-bold group-hover:text-slate-800 transition-colors">{insight}</p>
             </div>
           </div>
         ))}
         
         <div className="pt-4 grid grid-cols-1 gap-3">
-          <div className="bg-blue-50 border border-blue-100 rounded-xl p-4">
-             <div className="text-[9px] font-bold text-blue-600 uppercase mb-1">Growth Peak ({startYear}-{currentYear})</div>
-             <div className="text-lg font-bold text-slate-800">{fastestGrowth ? `${fastestGrowth.pctChange.toFixed(1)}%` : 'N/A'}</div>
-             <div className="text-[9px] text-slate-500 font-medium">Leading: {fastestGrowth?.name}</div>
+          <div className="bg-slate-900 rounded-2xl p-5 text-white shadow-xl relative overflow-hidden group">
+             <div className="relative z-10">
+                <div className="text-[10px] font-black text-blue-400 uppercase tracking-widest mb-2 opacity-80">Cycle Projection</div>
+                <div className="text-2xl font-black tracking-tight mb-1">{fastestGrowth ? `${fastestGrowth.pctChange.toFixed(1)}%` : 'N/A'}</div>
+                <div className="text-[10px] text-slate-400 font-bold uppercase tracking-widest">Peak Growth: {fastestGrowth?.name}</div>
+             </div>
+             <div className="absolute -right-4 -bottom-4 opacity-10 group-hover:scale-110 transition-transform duration-500">
+                <TrendingUp size={100} />
+             </div>
           </div>
-          <div className="bg-emerald-50 border border-emerald-100 rounded-xl p-4">
-             <div className="text-[9px] font-bold text-emerald-600 uppercase mb-1">Market Context</div>
-             <div className="text-lg font-bold uppercase tracking-tight text-slate-800">{currentYear > 2023 ? "Correction" : "Expansionary"}</div>
-             <div className="text-[9px] text-slate-500 font-medium">Macro cycle status</div>
+          
+          <div className="bg-slate-50 border border-slate-200 rounded-2xl p-5 flex items-center justify-between">
+             <div>
+                <div className="text-[9px] font-black text-slate-400 uppercase tracking-widest mb-1">Current Stance</div>
+                <div className="text-sm font-black text-slate-800 uppercase tracking-tight">{currentYear > 2023 ? "Strategic Correction" : "Expansionary Phase"}</div>
+             </div>
+             <div className={cn(
+               "w-10 h-10 rounded-full flex items-center justify-center border-4",
+               currentYear > 2023 ? "border-amber-100 text-amber-500" : "border-emerald-100 text-emerald-500"
+             )}>
+                <AlertCircle size={18} />
+             </div>
           </div>
         </div>
       </div>

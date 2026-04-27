@@ -10,7 +10,10 @@ interface TimeSeriesChartProps {
 }
 
 export default function TimeSeriesChart({ regions, historicalData, state }: TimeSeriesChartProps) {
-  const years = Array.from({ length: 2025 - 2015 + 1 }, (_, i) => 2015 + i);
+  const years = Array.from(
+    { length: state.yearRange[1] - state.yearRange[0] + 1 }, 
+    (_, i) => state.yearRange[0] + i
+  );
   
   const getSeriesData = (regionId: string) => {
     return years.map(year => {
@@ -38,7 +41,7 @@ export default function TimeSeriesChart({ regions, historicalData, state }: Time
   };
 
   const selectedRegions = regions.filter(r => state.selectedRegionIds.includes(r.id));
-  const regionsToShow = selectedRegions; // Only show what's selected
+  const regionsToShow = selectedRegions.length > 0 ? selectedRegions : regions; // Default to all if none selected
 
   const option = {
     backgroundColor: 'transparent',
@@ -60,10 +63,10 @@ export default function TimeSeriesChart({ regions, historicalData, state }: Time
       }
     },
     legend: {
-      data: ['National Average', ...regionsToShow.map(r => r.name)],
+      data: ['Composite Benchmark', ...regionsToShow.map(r => r.name)],
       bottom: 0,
       icon: 'circle',
-      textStyle: { fontSize: 10 }
+      textStyle: { fontSize: 10, fontWeight: 'bold' }
     },
     grid: {
       left: '3%',
@@ -91,12 +94,12 @@ export default function TimeSeriesChart({ regions, historicalData, state }: Time
     },
     series: [
       {
-        name: 'National Average',
+        name: 'Composite Benchmark',
         type: 'line',
         smooth: true,
         data: getNationalAverage(),
-        lineStyle: { width: 2, type: 'dashed', color: '#94a3b8' },
-        itemStyle: { color: '#94a3b8' },
+        lineStyle: { width: 2, type: 'dashed', color: '#cbd5e1' },
+        itemStyle: { color: '#cbd5e1' },
         symbol: 'none',
         z: 1
       },

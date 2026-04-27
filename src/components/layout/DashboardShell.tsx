@@ -32,41 +32,36 @@ export default function DashboardShell({ children, sidebar }: DashboardShellProp
           {sidebar}
         </div>
         
-        <div className="p-6 border-t border-slate-100 bg-slate-50/50">
-           <div className="bg-slate-900 rounded-xl p-4 text-white shadow-xl shadow-slate-900/10">
-              <p className="text-[10px] opacity-50 font-bold mb-1 uppercase tracking-widest text-blue-400">System Alert</p>
-              <p className="text-xs leading-snug font-medium">Rental yields in Otago reached a 5-year high this quarter.</p>
-           </div>
-        </div>
+
       </aside>
 
       {/* Main Content */}
       <main className="flex-1 flex flex-col overflow-hidden">
         {/* Top Header */}
-        <header className="h-16 border-b border-slate-200 bg-white flex items-center justify-between px-8 z-10">
-          <div className="flex items-center gap-8 h-full">
-            <nav className="flex gap-8 h-full items-center">
-              <HeaderLink icon={<MapIcon size={18} />} label="Geospatial" href="#geospatial" active />
-              <HeaderLink icon={<TrendingUp size={18} />} label="Intelligence" href="#intelligence" />
-              <HeaderLink icon={<BarChart3 size={18} />} label="Performance" href="#performance" />
-              <HeaderLink icon={<Info size={18} />} label="Methodology" href="#methodology" />
+        <header className="h-16 border-b border-slate-200 bg-white flex items-center justify-between px-8 z-20 sticky top-0">
+          <div className="flex items-center gap-12 h-full">
+            <nav className="flex gap-1 h-full items-center">
+              <HeaderLink icon={<MapIcon size={16} />} label="Geospatial" href="#geospatial" active />
+              <HeaderLink icon={<TrendingUp size={16} />} label="Intelligence" href="#intelligence" />
+              <HeaderLink icon={<BarChart3 size={16} />} label="Performance" href="#performance" />
+              <HeaderLink icon={<Info size={16} />} label="Methodology" href="#methodology" />
             </nav>
           </div>
           
           <div className="flex items-center gap-6">
-             <div className="flex gap-6 items-center px-4">
+             <div className="hidden lg:flex gap-6 items-center px-4">
                 <div className="text-right">
-                  <p className="text-[10px] uppercase tracking-wider font-bold text-slate-400">Median Price</p>
-                  <p className="text-sm font-bold text-slate-800">$845k <span className="text-[10px] text-green-500 font-bold">+4.2%</span></p>
+                  <p className="text-[9px] uppercase tracking-[0.2em] font-bold text-slate-400">Market Price</p>
+                  <p className="text-sm font-bold text-slate-800">$845k <span className="text-[10px] text-emerald-500 font-black">+4.2%</span></p>
                 </div>
-                <div className="w-px h-6 bg-slate-200"></div>
+                <div className="w-px h-6 bg-slate-100"></div>
                 <div className="text-right">
-                  <p className="text-[10px] uppercase tracking-wider font-bold text-slate-400">Avg Rent</p>
-                  <p className="text-sm font-bold text-slate-800">$580 <span className="text-[10px] text-red-500 font-bold">+6.1%</span></p>
+                  <p className="text-[9px] uppercase tracking-[0.2em] font-bold text-slate-400">Rental Yield</p>
+                  <p className="text-sm font-bold text-slate-800">4.1% <span className="text-[10px] text-rose-500 font-black">+0.3%</span></p>
                 </div>
              </div>
-             <button className="bg-slate-900 text-white px-4 py-2 rounded-lg text-xs font-bold hover:bg-slate-800 transition-all active:scale-95 shadow-lg shadow-slate-900/10">
-                Export Report
+             <button className="bg-blue-600 text-white px-5 py-2 rounded-xl text-xs font-bold hover:bg-blue-700 transition-all active:scale-95 shadow-lg shadow-blue-600/20">
+                Share Dataset
              </button>
           </div>
         </header>
@@ -99,15 +94,14 @@ function HeaderLink({ icon, label, href, active = false }: { icon: React.ReactNo
     <a 
       href={href} 
       className={cn(
-        "flex items-center gap-2 text-xs font-bold transition-all relative h-full px-1 uppercase tracking-widest",
-        active ? "text-blue-600" : "text-slate-400 hover:text-slate-800"
+        "flex items-center gap-2.5 text-[10px] font-black transition-all relative h-full px-4 uppercase tracking-[0.15em]",
+        active ? "text-blue-600 after:absolute after:bottom-0 after:left-4 after:right-4 after:h-0.5 after:bg-blue-600 after:rounded-full" : "text-slate-400 hover:text-slate-800"
       )}
     >
-      {icon}
+      {React.cloneElement(icon as React.ReactElement, { 
+        className: cn("transition-colors", active ? "text-blue-600" : "text-slate-400")
+      })}
       <span>{label}</span>
-      {active && (
-        <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-blue-600" />
-      )}
     </a>
   );
 }

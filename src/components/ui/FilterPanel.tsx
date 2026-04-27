@@ -59,7 +59,10 @@ export default function FilterPanel({ regions, state, setState }: FilterPanelPro
           <div className="flex-1 flex justify-between items-center text-[11px] font-bold font-mono tracking-tighter">
             <span className="text-blue-600">{state.yearRange[0]}</span>
             <div className="h-0.5 bg-slate-200 flex-1 mx-4 rounded-full relative">
-               <div className="absolute top-0 left-0 h-full bg-blue-500 rounded-full" style={{ width: '80%' }}></div>
+               <div 
+                 className="absolute top-0 left-0 h-full bg-blue-500 rounded-full transition-all duration-300" 
+                 style={{ width: `${((state.yearRange[1] - 2015) / (2025 - 2015)) * 100}%` }}
+               ></div>
             </div>
             <span className="text-blue-600">{state.yearRange[1]}</span>
           </div>

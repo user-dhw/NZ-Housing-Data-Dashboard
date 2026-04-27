@@ -14,7 +14,7 @@ import AffordabilityChart from './components/charts/AffordabilityChart';
 import { DashboardState } from './types';
 import data from './data/nz-housing-data.json';
 import { motion } from 'motion/react';
-import { LayoutDashboard } from 'lucide-react';
+import { LayoutDashboard, TrendingUp, Zap } from 'lucide-react';
 
 import NarrativeSection from './components/ui/NarrativeSection';
 import AffordabilityHeatmap from './components/charts/AffordabilityHeatmap';
@@ -53,12 +53,18 @@ export default function App() {
         transition={{ duration: 0.4 }}
         className="flex flex-col gap-6 pb-12"
       >
-        <div className="mb-2">
-          <div className="flex items-center gap-2 mb-1">
-            <div className="w-1.5 h-4 bg-blue-600 rounded-full"></div>
-            <h1 className="text-xl font-bold tracking-tight text-slate-800">Analytical Workspace</h1>
+        <div className="mb-4 flex flex-col md:flex-row md:items-end justify-between gap-4">
+          <div>
+            <div className="flex items-center gap-3 mb-1">
+              <div className="w-1.5 h-6 bg-blue-600 rounded-full"></div>
+              <h1 className="text-2xl font-black tracking-tight text-slate-800">Analytical Workspace</h1>
+            </div>
+            <p className="text-[10px] uppercase font-bold text-slate-400 tracking-[0.25em] pl-4.5">NZ Housing Pulse • Geospatial & Temporal Study 2015-{state.yearRange[1]}</p>
           </div>
-          <p className="text-[10px] uppercase font-bold text-slate-400 tracking-widest pl-3.5">NZ Housing Pulse • Geospatial & Temporal Study 2015-2025</p>
+          <div className="flex items-center gap-2 bg-white px-3 py-1.5 rounded-full border border-slate-200 shadow-sm self-start md:self-auto">
+             <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></div>
+             <span className="text-[9px] font-black uppercase text-slate-500 tracking-widest">Real-time Data Active</span>
+          </div>
         </div>
 
         {/* Row 1: Geospatial Analysis */}
@@ -117,18 +123,27 @@ export default function App() {
         </div>
 
         {/* Row 4: Synthesis & Synthesis */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm flex flex-col justify-center">
-            <h4 className="text-[10px] font-bold text-blue-600 uppercase tracking-widest mb-2">Macro Divergence</h4>
-            <p className="text-[11px] text-slate-500 leading-relaxed font-medium">Auckland peaked at 11x HPI ratio. Post-2021 'Halo Effect' exported stress to previously resilient regions at 2x velocity.</p>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div className="group bg-white p-8 rounded-[2rem] border border-slate-200 shadow-sm hover:shadow-xl hover:border-blue-500/20 transition-all duration-500 flex flex-col">
+            <div className="w-12 h-12 bg-blue-50 rounded-2xl flex items-center justify-center text-blue-600 mb-6 group-hover:bg-blue-600 group-hover:text-white transition-all duration-500">
+               <TrendingUp size={24} />
+            </div>
+            <h4 className="text-xs font-black text-slate-400 uppercase tracking-[0.2em] mb-3">Market Volatility</h4>
+            <p className="text-sm text-slate-600 leading-relaxed font-bold">Queenstown remains NZ's most expensive market, with price-to-income ratios consistently exceeding 15x. Auckland and Wellington show a stabilizing trend post-2022 correction.</p>
           </div>
-          <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm flex flex-col justify-center">
-            <h4 className="text-[10px] font-bold text-indigo-600 uppercase tracking-widest mb-2">Market Stability</h4>
-            <p className="text-[11px] text-slate-500 leading-relaxed font-medium">Recent corrections stabilize price levels, but rental stress remains at historic highs across metropolitan clusters.</p>
+          <div className="group bg-white p-8 rounded-[2rem] border border-slate-200 shadow-sm hover:shadow-xl hover:border-indigo-500/20 transition-all duration-500 flex flex-col">
+            <div className="w-12 h-12 bg-indigo-50 rounded-2xl flex items-center justify-center text-indigo-600 mb-6 group-hover:bg-indigo-600 group-hover:text-white transition-all duration-500">
+               <LayoutDashboard size={24} />
+            </div>
+            <h4 className="text-xs font-black text-slate-400 uppercase tracking-[0.2em] mb-3">Urban Stability</h4>
+            <p className="text-sm text-slate-600 leading-relaxed font-bold">Christchurch maintains the highest resilience among major centers, offering the most balanced ratio between household income and median property values.</p>
           </div>
-          <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm flex flex-col justify-center">
-            <h4 className="text-[10px] font-bold text-emerald-600 uppercase tracking-widest mb-2">Resilience Indicator</h4>
-            <p className="text-[11px] text-slate-500 leading-relaxed font-medium">Southern regions maintain healthier wage-to-property ratios, serving as the only remaining resilient benchmarks.</p>
+          <div className="group bg-white p-8 rounded-[2rem] border border-slate-200 shadow-sm hover:shadow-xl hover:border-emerald-500/20 transition-all duration-500 flex flex-col">
+            <div className="w-12 h-12 bg-emerald-50 rounded-2xl flex items-center justify-center text-emerald-600 mb-6 group-hover:bg-emerald-600 group-hover:text-white transition-all duration-500">
+               <Zap size={24} />
+            </div>
+            <h4 className="text-xs font-black text-slate-400 uppercase tracking-[0.2em] mb-3">Satellite Density</h4>
+            <p className="text-sm text-slate-600 leading-relaxed font-bold">Hamilton has transitioned from a satellite to a hub, experiencing significant pressure as population density follows Auckland's northward expansion.</p>
           </div>
         </div>
 

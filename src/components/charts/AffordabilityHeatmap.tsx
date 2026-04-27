@@ -10,8 +10,11 @@ interface AffordabilityHeatmapProps {
 }
 
 export default function AffordabilityHeatmap({ regions, historicalData, state }: AffordabilityHeatmapProps) {
-  const years = Array.from({ length: 2025 - 2015 + 1 }, (_, i) => 2015 + i);
-  const popularityOrder = ['auckland', 'wellington', 'canterbury', 'otago', 'waikato', 'bay-of-plenty'];
+  const years = Array.from(
+    { length: state.yearRange[1] - state.yearRange[0] + 1 }, 
+    (_, i) => state.yearRange[0] + i
+  );
+  const popularityOrder = ['auckland', 'wellington', 'christchurch', 'queenstown', 'hamilton'];
   
   const sortedRegions = [...regions].sort((a, b) => {
     const idxA = popularityOrder.indexOf(a.id);
@@ -108,7 +111,7 @@ export default function AffordabilityHeatmap({ regions, historicalData, state }:
     <div className="bg-white p-8 rounded-3xl border border-slate-200 shadow-sm h-full flex flex-col">
       <div className="mb-6">
         <h3 className="text-sm font-bold uppercase tracking-widest text-slate-400 mb-1">Affordability Pressure Matrix</h3>
-        <p className="text-xl font-bold text-slate-800">Regional Inequality Evolution (2015-2025)</p>
+        <p className="text-xl font-bold text-slate-800">Regional Inequality Evolution ({state.yearRange[0]}-{state.yearRange[1]})</p>
       </div>
       <div className="flex-1 min-h-[300px]">
         <ReactECharts option={option} style={{ height: '100%', width: '100%' }} />
