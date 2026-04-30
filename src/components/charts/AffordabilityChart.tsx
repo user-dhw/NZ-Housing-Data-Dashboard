@@ -91,7 +91,7 @@ export default function AffordabilityChart({ regions, historicalData, state }: A
         markLine: {
           silent: true,
           lineStyle: { color: '#ef4444', type: 'dashed', opacity: 0.5 },
-          label: { position: 'end', formatter: 'Critical Stress', fontSize: 9 },
+          label: { position: 'end', formatter: 'Reference threshold', fontSize: 9 },
           data: [{ yAxis: 800000 }, { xAxis: 80000 }]
         },
         markArea: {

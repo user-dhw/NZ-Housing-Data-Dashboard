@@ -76,12 +76,13 @@ export default function App() {
           </div>
         </header>
 
-        <ProjectOverview authenticityNote={metadata?.dataAuthenticityNote} />
-
-        <div id="geospatial" className="scroll-mt-24 grid grid-cols-1 gap-6 lg:grid-cols-12">
-          <div className="lg:col-span-8">
+        <div
+          id="geospatial"
+          className="scroll-mt-24 grid grid-cols-1 gap-6 lg:grid-cols-12 lg:items-stretch"
+        >
+          <div className="lg:col-span-7">
             <ChartCaption>Shows geographic differences in housing affordability across selected cities.</ChartCaption>
-            <div className="h-[550px] overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm">
+            <div className="h-[460px] overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm xl:h-[520px]">
               <NZMap
                 regions={regions}
                 historicalData={historicalData}
@@ -90,11 +91,11 @@ export default function App() {
               />
             </div>
           </div>
-          <div className="lg:col-span-4 flex flex-col">
+          <div className="flex flex-col lg:col-span-5">
             <ChartCaption>
               Compares selected metrics between cities for the chosen year ({state.yearRange[1]}).
             </ChartCaption>
-            <div className="h-[550px] min-h-0">
+            <div className="h-[460px] min-h-0 xl:h-[520px]">
               <RegionalComparisonChart
                 regions={regions}
                 historicalData={historicalData}
@@ -107,8 +108,7 @@ export default function App() {
         <div id="performance" className="scroll-mt-24 grid grid-cols-1 gap-6 lg:grid-cols-2">
           <div>
             <ChartCaption>
-              Shows how housing prices, rents, income, or affordability changed from 2015 to 2025
-              according to the active metric.
+              Shows how the selected metric changes over time across selected locations.
             </ChartCaption>
             <div className="h-[480px]">
               <TimeSeriesChart
@@ -153,6 +153,8 @@ export default function App() {
         </div>
 
         <KeyInsights />
+
+        <ProjectOverview authenticityNote={metadata?.dataAuthenticityNote} />
 
         <DataSourcesMethodology
           dataSources={dataSources}

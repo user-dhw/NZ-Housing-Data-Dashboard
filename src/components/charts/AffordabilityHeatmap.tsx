@@ -119,7 +119,7 @@ export default function AffordabilityHeatmap({ regions, historicalData, state }:
       </div>
       <div className="mt-2 p-3 bg-slate-50 rounded-xl">
         <p className="text-[10px] text-slate-500 leading-relaxed italic">
-          * Heat intensity represents the Price-to-Income ratio. Standard benchmark is 3.0x.
+          * Heat intensity represents the price-to-income ratio for each selected location and year.
         </p>
       </div>
     </div>

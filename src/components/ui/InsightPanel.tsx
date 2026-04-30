@@ -1,7 +1,7 @@
 import React from 'react';
 import { Region, HousingMetric, DashboardState } from '../../types';
-import { formatCurrency, getRegionLabel } from '../../utils/dataHelpers';
-import { Zap, TrendingUp, TrendingDown, AlertCircle } from 'lucide-react';
+import { getRegionLabel } from '../../utils/dataHelpers';
+import { Zap, TrendingUp, AlertCircle } from 'lucide-react';
 import { clsx, type ClassValue } from 'clsx';
 import { twMerge } from 'tailwind-merge';
 
@@ -48,19 +48,19 @@ export default function InsightPanel({ regions, historicalData, state }: Insight
     const lead = selectedRegionsData[0];
 
     if (lead.priceVsIncome > 1.5) {
-      insights.push(`${lead.name} house prices surged by ${lead.priceGrowth.toFixed(1)}%, outpacing income growth by a factor of ${lead.priceVsIncome.toFixed(1)}x since ${startYear}.`);
+      insights.push(`${lead.name} house prices rose ${lead.priceGrowth.toFixed(1)}% while income rose ${lead.incomeGrowth.toFixed(1)}% since ${startYear}.`);
     } else {
-      insights.push(`${lead.name} showed relatively coupled growth between property values (${lead.priceGrowth.toFixed(1)}%) and household income.`);
+      insights.push(`${lead.name} shows similar movement between house prices and income over the selected years.`);
     }
     
     if (lead.rentStress > 0.3) {
-      insights.push(`Analytical Warning: Average rent in ${lead.name} now absorbs ${(lead.rentStress * 100).toFixed(1)}% of median gross income, exceeding key affordability benchmarks.`);
+      insights.push(`Average rent in ${lead.name} uses ${(lead.rentStress * 100).toFixed(1)}% of annual income in ${currentYear}.`);
     }
 
     const maxRatio = Math.max(...selectedRegionsData.map(d => d.priceVsIncome));
     if (selectedRegionsData.length > 1) {
       const highestInequality = selectedRegionsData.find(d => d.priceVsIncome === maxRatio);
-      insights.push(`Inequality Gap: ${highestInequality.name} shows the most extreme divergence, with prices rising ${highestInequality.priceVsIncome.toFixed(1)}x faster than local wages.`);
+      insights.push(`${highestInequality.name} has the largest price-to-income growth gap among the selected locations.`);
     }
 
     return insights;
@@ -89,12 +89,12 @@ export default function InsightPanel({ regions, historicalData, state }: Insight
             <Zap size={20} fill="currentColor" />
           </div>
           <div>
-            <h3 className="text-[9px] font-black uppercase tracking-[0.2em] text-blue-600 mb-0.5">Intelligence Layer</h3>
-            <p className="text-xl font-black tracking-tight text-slate-800">Key Narratives</p>
+            <h3 className="text-[9px] font-black uppercase tracking-[0.2em] text-blue-600 mb-0.5">Analytical summary</h3>
+            <p className="text-xl font-black tracking-tight text-slate-800">Selected-region insights</p>
           </div>
         </div>
-        <div className="text-[9px] font-black text-slate-400 uppercase bg-slate-100 px-2 py-1 rounded-md tracking-widest">
-           v2025.4
+        <div className="max-w-[190px] text-right text-[9px] font-black text-slate-500 bg-slate-100 px-2 py-1 rounded-md">
+          Dataset: 2015–2025 yearly housing indicators
         </div>
       </div>
 
@@ -111,9 +111,9 @@ export default function InsightPanel({ regions, historicalData, state }: Insight
         <div className="pt-4 grid grid-cols-1 gap-3">
           <div className="bg-slate-900 rounded-2xl p-5 text-white shadow-xl relative overflow-hidden group">
              <div className="relative z-10">
-                <div className="text-[10px] font-black text-blue-400 uppercase tracking-widest mb-2 opacity-80">Cycle Projection</div>
+                <div className="text-[10px] font-black text-blue-400 uppercase tracking-widest mb-2 opacity-80">Largest change</div>
                 <div className="text-2xl font-black tracking-tight mb-1">{fastestGrowth ? `${fastestGrowth.pctChange.toFixed(1)}%` : 'N/A'}</div>
-                <div className="text-[10px] text-slate-400 font-bold uppercase tracking-widest">Peak Growth: {fastestGrowth?.name}</div>
+                <div className="text-[10px] text-slate-400 font-bold uppercase tracking-widest">Highest growth: {fastestGrowth?.name}</div>
              </div>
              <div className="absolute -right-4 -bottom-4 opacity-10 group-hover:scale-110 transition-transform duration-500">
                 <TrendingUp size={100} />
@@ -122,8 +122,8 @@ export default function InsightPanel({ regions, historicalData, state }: Insight
           
           <div className="bg-slate-50 border border-slate-200 rounded-2xl p-5 flex items-center justify-between">
              <div>
-                <div className="text-[9px] font-black text-slate-400 uppercase tracking-widest mb-1">Current Stance</div>
-                <div className="text-sm font-black text-slate-800 uppercase tracking-tight">{currentYear > 2023 ? "Strategic Correction" : "Expansionary Phase"}</div>
+                <div className="text-[9px] font-black text-slate-400 uppercase tracking-widest mb-1">Selected year context</div>
+                <div className="text-sm font-black text-slate-800 uppercase tracking-tight">{currentYear > 2023 ? "Recent-period values" : "Earlier-period values"}</div>
              </div>
              <div className={cn(
                "w-10 h-10 rounded-full flex items-center justify-center border-4",

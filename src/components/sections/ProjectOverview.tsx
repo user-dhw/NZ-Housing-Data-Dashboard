@@ -8,16 +8,16 @@ export default function ProjectOverview({ authenticityNote }: ProjectOverviewPro
   return (
     <section
       id="project-overview"
-      className="scroll-mt-24 rounded-2xl border border-slate-200 bg-white p-6 md:p-8 shadow-sm"
+      className="scroll-mt-24 rounded-2xl border border-slate-200 bg-white p-5 md:p-6 shadow-sm"
     >
-      <h2 className="mb-3 text-sm font-black uppercase tracking-[0.15em] text-slate-400">
+      <h2 className="mb-2 text-sm font-black uppercase tracking-[0.15em] text-slate-400">
         Project Overview
       </h2>
       <p className="text-sm leading-relaxed text-slate-700">
-        This project investigates housing affordability and market inequality across selected New Zealand cities. It compares house prices, rental costs, income, and affordability pressure derived from comparable metrics. The goal is to help users explore regional differences and long-term trends through interactive visualisations linked by year, metric, and place.
+        This dashboard compares housing affordability indicators across selected New Zealand locations from 2015 to 2025 using coordinated interactive charts. It helps users inspect how house prices, rents, incomes, and affordability ratios change over time and differ by place.
       </p>
       {authenticityNote && (
-        <p className="mt-4 border-t border-slate-100 pt-4 text-xs leading-relaxed text-slate-500">
+        <p className="mt-3 border-t border-slate-100 pt-3 text-xs leading-relaxed text-slate-500">
           {authenticityNote}
         </p>
       )}

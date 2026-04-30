@@ -130,7 +130,7 @@ export default function NZMap({ regions, historicalData, state, onRegionSelect }
                     >
                       {metric ? getAffordabilityRatio(metric).toFixed(2) : 'N/A'}x
                     </span>
-                    <span className="text-[8px] text-slate-400 mt-0.5 block opacity-70">Benchmark: 3.0x</span>
+                    <span className="text-[8px] text-slate-400 mt-0.5 block opacity-70">Dataset comparison ratio</span>
                   </div>
                 </div>
 
@@ -140,7 +140,7 @@ export default function NZMap({ regions, historicalData, state, onRegionSelect }
                       {getAffordabilityRatio(metric) > 8
                         ? 'Severely unaffordable: house values are high relative to household income in this series.'
                         : getAffordabilityRatio(metric) > 5
-                          ? 'Elevated pressure: affordability is stretched relative to a common benchmark.'
+                          ? 'Elevated pressure: affordability is stretched relative to other selected locations.'
                           : 'Lower pressure: this region shows a less extreme value-to-income relationship in this series.'}
                     </p>
                   </div>

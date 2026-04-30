@@ -2,20 +2,16 @@ import React from 'react';
 
 const insights = [
   {
-    title: 'Regional spread',
-    text: 'Housing affordability pressure differs strongly between cities, reflecting uneven price, rent, and income dynamics.',
+    title: 'Regional variation',
+    text: 'Affordability pressure differs clearly across the selected locations.',
   },
   {
-    title: 'High-pressure markets',
-    text: 'Queenstown-Lakes and Auckland show high affordability pressure because house values are high compared with income in this dataset.',
+    title: 'Price-income gap',
+    text: 'In several selected locations, house prices have grown faster than incomes over much of the period.',
   },
   {
-    title: 'Price and rent trajectories',
-    text: 'Rent growth and house price growth do not always move at the same speed across regions or periods.',
-  },
-  {
-    title: 'Recent market phase',
-    text: 'The post-COVID period shows noticeable housing market changes across several cities when viewed alongside earlier years.',
+    title: 'Rent and price movement',
+    text: 'Rent trends and house-price trends do not move at the same pace in every selected location.',
   },
 ];
 
@@ -25,7 +21,7 @@ export default function KeyInsights() {
       <h2 className="mb-4 text-sm font-black uppercase tracking-[0.15em] text-slate-400">
         Key Analytical Insights
       </h2>
-      <div className="grid gap-4 sm:grid-cols-2">
+      <div className="grid gap-4 md:grid-cols-3">
         {insights.map(({ title, text }) => (
           <article
             key={title}
