@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactECharts from 'echarts-for-react';
 import { Region, HousingMetric, DashboardState } from '../../types';
-import { calculateAffordabilityIndex } from '../../utils/dataHelpers';
+import { getAffordabilityRatio, getRegionLabel } from '../../utils/dataHelpers';
 
 interface AffordabilityHeatmapProps {
   regions: Region[];
@@ -22,16 +22,16 @@ export default function AffordabilityHeatmap({ regions, historicalData, state }:
     if (idxA !== -1 && idxB !== -1) return idxA - idxB;
     if (idxA !== -1) return -1;
     if (idxB !== -1) return 1;
-    return a.name.localeCompare(b.name);
+    return getRegionLabel(a).localeCompare(getRegionLabel(b));
   });
 
-  const sortedRegionNames = sortedRegions.map(r => r.name);
+  const sortedRegionNames = sortedRegions.map((r) => getRegionLabel(r));
 
   const data = [];
   for (let i = 0; i < sortedRegions.length; i++) {
     for (let j = 0; j < years.length; j++) {
       const metric = historicalData.find(d => d.regionId === sortedRegions[i].id && d.year === years[j]);
-      const ratio = metric ? calculateAffordabilityIndex(metric.avgPrice, metric.avgIncome) : 0;
+      const ratio = metric ? getAffordabilityRatio(metric) : 0;
       data.push([j, i, ratio || '-']);
     }
   }
@@ -45,9 +45,10 @@ export default function AffordabilityHeatmap({ regions, historicalData, state }:
       textStyle: { color: '#334155', fontSize: 12 },
       formatter: (params: any) => {
         const val = params.data[2];
-        const status = val > 7 ? 'Critical' : val > 5 ? 'High Stress' : val > 3 ? 'Unfair' : 'Affordable';
+        const status =
+          val > 7 ? 'Critical' : val > 5 ? 'High stress' : val > 3 ? 'Elevated' : 'Lower pressure';
         return `<div style="font-family: sans-serif; padding: 4px;">
-          <div style="font-weight: 700; margin-bottom: 4px;">${sortedRegions[params.data[1]].name} | ${years[params.data[0]]}</div>
+          <div style="font-weight: 700; margin-bottom: 4px;">${getRegionLabel(sortedRegions[params.data[1]])} | ${years[params.data[0]]}</div>
           <div style="display: flex; justify-content: space-between; gap: 20px;">
             <span style="color: #64748b;">HPI Ratio:</span>
             <span style="font-weight: 700;">${val === '-' ? 'N/A' : val.toFixed(2) + 'x'}</span>

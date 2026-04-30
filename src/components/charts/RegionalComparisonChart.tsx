@@ -1,7 +1,12 @@
 import React from 'react';
 import ReactECharts from 'echarts-for-react';
 import { Region, HousingMetric, DashboardState } from '../../types';
-import { formatCurrency, formatCompact, getMetricLabel } from '../../utils/dataHelpers';
+import {
+  formatCompact,
+  getAffordabilityRatio,
+  getMetricLabel,
+  getRegionLabel,
+} from '../../utils/dataHelpers';
 
 interface RegionalComparisonChartProps {
   regions: Region[];
@@ -20,9 +25,9 @@ export default function RegionalComparisonChart({ regions, historicalData, state
       if (metric) {
         if (state.activeMetric === 'price') value = metric.avgPrice;
         else if (state.activeMetric === 'rent') value = metric.avgRent;
-        else value = metric.avgPrice / metric.avgIncome;
+        else value = getAffordabilityRatio(metric);
       }
-      return { name: r.name, value, id: r.id };
+      return { name: getRegionLabel(r), value, id: r.id };
     })
     .filter(d => d.value > 0)
     .sort((a, b) => b.value - a.value);
@@ -56,11 +61,11 @@ export default function RegionalComparisonChart({ regions, historicalData, state
       axisLine: { lineStyle: { color: '#E5E5E5' } },
       axisLabel: { 
         color: (value: string) => {
-          const region = regions.find(r => r.name === value);
+          const region = regions.find((r) => getRegionLabel(r) === value);
           return state.selectedRegionIds.includes(region?.id || '') ? '#2563eb' : '#94a3b8';
         },
         fontWeight: (value: string) => {
-          const region = regions.find(r => r.name === value);
+          const region = regions.find((r) => getRegionLabel(r) === value);
           return state.selectedRegionIds.includes(region?.id || '') ? 'bold' : 'normal';
         }
       }

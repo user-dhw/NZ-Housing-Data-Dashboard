@@ -1,5 +1,6 @@
 import React from 'react';
 import { Region, DashboardState } from '../../types';
+import { getRegionLabel } from '../../utils/dataHelpers';
 import { Search, Filter, Calendar } from 'lucide-react';
 
 interface FilterPanelProps {
@@ -119,7 +120,7 @@ export default function FilterPanel({ regions, state, setState }: FilterPanelPro
               <span className={`text-[13px] font-semibold ${
                 state.selectedRegionIds.includes(region.id) ? 'text-blue-700' : 'text-slate-600'
               }`}>
-                {region.name}
+                {getRegionLabel(region)}
               </span>
             </label>
           ))}

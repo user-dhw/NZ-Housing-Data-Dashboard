@@ -1,7 +1,13 @@
 import React from 'react';
 import ReactECharts from 'echarts-for-react';
 import { Region, HousingMetric, DashboardState } from '../../types';
-import { formatCurrency, formatCompact, getMetricLabel } from '../../utils/dataHelpers';
+import {
+  formatCurrency,
+  formatCompact,
+  getAffordabilityRatio,
+  getMetricLabel,
+  getRegionLabel,
+} from '../../utils/dataHelpers';
 
 interface TimeSeriesChartProps {
   regions: Region[];
@@ -21,7 +27,7 @@ export default function TimeSeriesChart({ regions, historicalData, state }: Time
       if (!entry) return null;
       if (state.activeMetric === 'price') return entry.avgPrice;
       if (state.activeMetric === 'rent') return entry.avgRent;
-      return entry.avgPrice / entry.avgIncome;
+      return getAffordabilityRatio(entry);
     });
   };
 
@@ -33,7 +39,7 @@ export default function TimeSeriesChart({ regions, historicalData, state }: Time
       const sum = yearData.reduce((acc, curr) => {
         if (state.activeMetric === 'price') return acc + curr.avgPrice;
         if (state.activeMetric === 'rent') return acc + curr.avgRent;
-        return acc + (curr.avgPrice / curr.avgIncome);
+        return acc + getAffordabilityRatio(curr);
       }, 0);
       
       return sum / yearData.length;
@@ -63,7 +69,7 @@ export default function TimeSeriesChart({ regions, historicalData, state }: Time
       }
     },
     legend: {
-      data: ['Composite Benchmark', ...regionsToShow.map(r => r.name)],
+      data: ['Composite Benchmark', ...regionsToShow.map((r) => getRegionLabel(r))],
       bottom: 0,
       icon: 'circle',
       textStyle: { fontSize: 10, fontWeight: 'bold' },
@@ -106,7 +112,7 @@ export default function TimeSeriesChart({ regions, historicalData, state }: Time
         z: 1
       },
       ...regionsToShow.map((region, index) => ({
-        name: region.name,
+        name: getRegionLabel(region),
         type: 'line',
         smooth: true,
         symbol: 'circle',

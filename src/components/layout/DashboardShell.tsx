@@ -1,5 +1,5 @@
 import React from 'react';
-import { LayoutDashboard, Map as MapIcon, BarChart3, TrendingUp, Info } from 'lucide-react';
+import { LayoutDashboard, Map as MapIcon, BarChart3, TrendingUp, Info, BookOpen } from 'lucide-react';
 import { clsx, type ClassValue } from 'clsx';
 import { twMerge } from 'tailwind-merge';
 
@@ -23,7 +23,7 @@ export default function DashboardShell({ children, sidebar }: DashboardShellProp
               <LayoutDashboard size={20} className="text-white" />
             </div>
             <h1 className="font-bold text-lg tracking-tight text-slate-800">
-              NZ Housing <span className="text-blue-600">Pulse</span>
+              NZ Housing <span className="text-blue-600">Dashboard</span>
             </h1>
           </div>
         </div>
@@ -40,29 +40,22 @@ export default function DashboardShell({ children, sidebar }: DashboardShellProp
         {/* Top Header */}
         <header className="h-16 border-b border-slate-200 bg-white flex items-center justify-between px-8 z-20 sticky top-0">
           <div className="flex items-center gap-12 h-full">
-            <nav className="flex gap-1 h-full items-center">
-              <HeaderLink icon={<MapIcon size={16} />} label="Geospatial" href="#geospatial" active />
+            <nav className="flex flex-wrap gap-1 h-full items-center">
+              <HeaderLink icon={<Info size={16} />} label="Overview" href="#project-overview" />
+              <HeaderLink icon={<MapIcon size={16} />} label="Map" href="#geospatial" />
               <HeaderLink icon={<TrendingUp size={16} />} label="Intelligence" href="#intelligence" />
-              <HeaderLink icon={<BarChart3 size={16} />} label="Performance" href="#performance" />
-              <HeaderLink icon={<Info size={16} />} label="Methodology" href="#methodology" />
+              <HeaderLink icon={<BarChart3 size={16} />} label="Trends" href="#performance" />
+              <HeaderLink icon={<BookOpen size={16} />} label="Sources" href="#methodology" />
             </nav>
           </div>
           
-          <div className="flex items-center gap-6">
-             <div className="hidden lg:flex gap-6 items-center px-4">
-                <div className="text-right">
-                  <p className="text-[9px] uppercase tracking-[0.2em] font-bold text-slate-400">Market Price</p>
-                  <p className="text-sm font-bold text-slate-800">$845k <span className="text-[10px] text-emerald-500 font-black">+4.2%</span></p>
-                </div>
-                <div className="w-px h-6 bg-slate-100"></div>
-                <div className="text-right">
-                  <p className="text-[9px] uppercase tracking-[0.2em] font-bold text-slate-400">Rental Yield</p>
-                  <p className="text-sm font-bold text-slate-800">4.1% <span className="text-[10px] text-rose-500 font-black">+0.3%</span></p>
-                </div>
+          <div className="flex items-center gap-4">
+             <div className="hidden max-w-md text-right lg:block">
+                <p className="text-[9px] font-bold uppercase tracking-[0.2em] text-slate-400">Scope</p>
+                <p className="text-xs font-semibold leading-snug text-slate-700">
+                  Five cities/regions • 2015–2025
+                </p>
              </div>
-             <button className="bg-blue-600 text-white px-5 py-2 rounded-xl text-xs font-bold hover:bg-blue-700 transition-all active:scale-95 shadow-lg shadow-blue-600/20">
-                Share Dataset
-             </button>
           </div>
         </header>
 
@@ -73,15 +66,12 @@ export default function DashboardShell({ children, sidebar }: DashboardShellProp
           </div>
         </div>
 
-        <footer className="h-8 bg-white border-t border-slate-200 px-8 flex items-center justify-between shrink-0">
-          <div className="flex gap-4 text-[10px] font-bold text-slate-400 tracking-wider">
-            <span>SOURCE: REINZ & TENANCY SERVICES</span>
-            <span className="text-slate-200">|</span>
-            <span>LAST UPDATED: APR 2026</span>
-          </div>
-          <div className="flex items-center gap-2 text-[10px] font-bold text-slate-400">
-            <span className="w-1.5 h-1.5 rounded-full bg-green-500 shadow-sm shadow-green-500/50 animate-pulse"></span>
-            <span className="uppercase tracking-widest">Data Connection Live</span>
+        <footer className="min-h-8 shrink-0 border-t border-slate-200 bg-white px-6 py-2 md:px-8">
+          <div className="flex flex-col gap-1 text-[10px] font-semibold tracking-wide text-slate-500 md:flex-row md:items-center md:justify-between md:gap-4">
+            <span className="truncate">
+              Data references: MBIE / Tenancy Services; HUD affordability indicators; Cotality/CoreLogic; Stats NZ
+            </span>
+            <span className="text-slate-400">Course visualisation demo</span>
           </div>
         </footer>
       </main>

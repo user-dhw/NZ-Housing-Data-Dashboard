@@ -1,4 +1,4 @@
-import { HousingMetric } from '../types';
+import { HousingMetric, Region } from '../types';
 
 export const formatCurrency = (value: number) => {
   return new Intl.NumberFormat('en-NZ', {
@@ -22,6 +22,17 @@ export const calculateAffordabilityIndex = (price: number, income: number) => {
   if (income === 0) return 0;
   return price / income;
 };
+
+/** Uses dataset `affordabilityRatio` when present; otherwise price / income. */
+export const getAffordabilityRatio = (metric: HousingMetric): number => {
+  if (metric.affordabilityRatio != null && Number.isFinite(metric.affordabilityRatio)) {
+    return metric.affordabilityRatio;
+  }
+  return calculateAffordabilityIndex(metric.avgPrice, metric.avgIncome);
+};
+
+export const getRegionLabel = (region: Region): string =>
+  region.displayName ?? region.name;
 
 export const getAffordabilityClassification = (ratio: number) => {
   if (ratio <= 3.0) return { label: 'Affordable', color: 'text-emerald-600', bg: 'bg-emerald-50' };

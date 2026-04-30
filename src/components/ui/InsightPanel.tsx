@@ -1,6 +1,6 @@
 import React from 'react';
 import { Region, HousingMetric, DashboardState } from '../../types';
-import { formatCurrency } from '../../utils/dataHelpers';
+import { formatCurrency, getRegionLabel } from '../../utils/dataHelpers';
 import { Zap, TrendingUp, TrendingDown, AlertCircle } from 'lucide-react';
 import { clsx, type ClassValue } from 'clsx';
 import { twMerge } from 'tailwind-merge';
@@ -32,7 +32,7 @@ export default function InsightPanel({ regions, historicalData, state }: Insight
         const rentGrowth = ((end.avgRent - start.avgRent) / start.avgRent) * 100;
         
         return {
-          name: r.name,
+          name: getRegionLabel(r),
           priceVsIncome: priceGrowth / (incomeGrowth || 1),
           rentStress: (end.avgRent * 52) / (end.avgIncome || 1),
           priceGrowth,
@@ -75,7 +75,7 @@ export default function InsightPanel({ regions, historicalData, state }: Insight
     const metricStart = state.activeMetric === 'price' ? startData.avgPrice : startData.avgRent;
     const metricEnd = state.activeMetric === 'price' ? endData.avgPrice : endData.avgRent;
     const pctChange = ((metricEnd - metricStart) / metricStart) * 100;
-    return { name: r.name, pctChange, value: metricEnd, id: r.id };
+    return { name: getRegionLabel(r), pctChange, value: metricEnd, id: r.id };
   }).filter(Boolean);
 
   const fastestGrowth = growthStats.length > 0 ? [...growthStats as any].sort((a,b) => b.pctChange - a.pctChange)[0] : null;

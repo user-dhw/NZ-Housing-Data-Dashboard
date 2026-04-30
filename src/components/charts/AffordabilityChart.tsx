@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactECharts from 'echarts-for-react';
 import { Region, HousingMetric, DashboardState } from '../../types';
-import { formatCurrency, formatCompact } from '../../utils/dataHelpers';
+import { formatCurrency, formatCompact, getAffordabilityRatio, getRegionLabel } from '../../utils/dataHelpers';
 
 interface AffordabilityChartProps {
   regions: Region[];
@@ -17,10 +17,10 @@ export default function AffordabilityChart({ regions, historicalData, state }: A
     if (!metric) return null;
     return [
       metric.avgIncome, // x
-      metric.avgPrice,  // y
+      metric.avgPrice, // y
       metric.population, // size
-      r.name,           // name
-      r.id              // id
+      getRegionLabel(r), // name
+      r.id, // id
     ];
   }).filter(Boolean);
 
@@ -30,7 +30,9 @@ export default function AffordabilityChart({ regions, historicalData, state }: A
       backgroundColor: 'rgba(255, 255, 255, 0.95)',
       borderColor: '#E5E5E5',
       formatter: (params: any) => {
-        const [income, price, pop, name] = params.data.value;
+        const [income, price, , name, id] = params.data.value;
+        const metric = historicalData.find((d) => d.regionId === id && d.year === currentYear);
+        const ratio = metric ? getAffordabilityRatio(metric) : income ? price / income : 0;
         return `<div style="font-family: sans-serif;">
           <div style="font-weight: 700; border-bottom: 1px solid #E5E5E5; padding-bottom: 5px; margin-bottom: 5px;">${name}</div>
           <div style="display: flex; justify-content: space-between; gap: 20px; font-size: 12px;">
@@ -43,7 +45,7 @@ export default function AffordabilityChart({ regions, historicalData, state }: A
           </div>
           <div style="display: flex; justify-content: space-between; gap: 20px; font-size: 12px;">
             <span style="color: #9E9E9E">Ratio:</span>
-            <span style="font-weight: 700;">${(price / income).toFixed(1)}x</span>
+            <span style="font-weight: 700;">${ratio.toFixed(2)}x</span>
           </div>
         </div>`;
       }

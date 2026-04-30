@@ -1,0 +1,646 @@
+{
+	"metadata": {
+		"projectTitle": "Visualising Housing Affordability and Market Inequality in New Zealand",
+		"subtitle": "Interactive visual analysis of housing affordability trends across five New Zealand cities from 2015 to 2025.",
+		"country": "New Zealand",
+		"timePeriod": "2015-2025",
+		"selectedLocations": [
+			"Auckland",
+			"Hamilton City",
+			"Christchurch City",
+			"Wellington City",
+			"Queenstown-Lakes District"
+		],
+		"dataAuthenticityNote": "This dataset structure is designed to use publicly available New Zealand housing and affordability data. The dashboard should avoid describing values as AI-generated, inspired, or interpolated unless those methods are clearly documented. If exact yearly values are manually entered, they should be checked against the listed sources before final submission.",
+		"lastUpdatedForProject": "2026-04-30"
+	},
+	"metricDefinitions": {
+		"avgPrice": {
+			"label": "Average house value",
+			"unit": "NZD",
+			"description": "Represents average residential house value or comparable home value measure for the selected Territorial Authority.",
+			"recommendedSource": "Cotality/CoreLogic Home Value Index or Infometrics regional housing statistics"
+		},
+		"avgRent": {
+			"label": "Median weekly rent",
+			"unit": "NZD per week",
+			"description": "Represents median weekly rent for residential tenancies, preferably based on bond lodgement data by Territorial Authority.",
+			"recommendedSource": "MBIE / Tenancy Services Rental Bond Data"
+		},
+		"avgIncome": {
+			"label": "Average annual income",
+			"unit": "NZD per year",
+			"description": "Represents annual income used for affordability comparison. Use a consistent Stats NZ or Infometrics income series across all cities and years.",
+			"recommendedSource": "Stats NZ income statistics or Infometrics regional income data"
+		},
+		"population": {
+			"label": "Population estimate",
+			"unit": "people",
+			"description": "Represents population estimate for the selected Territorial Authority or urban area.",
+			"recommendedSource": "Stats NZ subnational population estimates"
+		},
+		"affordabilityRatio": {
+			"label": "House value-to-income ratio",
+			"unit": "ratio",
+			"description": "Calculated as avgPrice divided by avgIncome. A higher value indicates stronger affordability pressure.",
+			"formula": "avgPrice / avgIncome",
+			"recommendedSource": "Calculated from house value and income data; can be cross-checked with HUD or Infometrics affordability indicators"
+		}
+	},
+	"dataSources": {
+		"priceMetric": {
+			"metricKey": "avgPrice",
+			"sourceName": "Cotality/CoreLogic Home Value Index or Infometrics regional housing statistics",
+			"sourceType": "property value index / regional housing statistics",
+			"reasonForUse": "More suitable than simple average sale price because Home Value Index methods reduce compositional bias and cover major cities and Territorial Authorities.",
+			"geographicLevel": "Major cities / Territorial Authorities",
+			"url": "https://www.cotality.com/nz/our-data/indices"
+		},
+		"rentMetric": {
+			"metricKey": "avgRent",
+			"sourceName": "MBIE / Tenancy Services Rental Bond Data",
+			"sourceType": "government tenancy bond lodgement data",
+			"reasonForUse": "Official rental bond records provide a more reliable basis for rent trends than advertised asking rents.",
+			"geographicLevel": "Territorial Authority",
+			"url": "https://www.tenancy.govt.nz/about-tenancy-services/data-and-statistics/rental-bond-data/"
+		},
+		"incomeMetric": {
+			"metricKey": "avgIncome",
+			"sourceName": "Stats NZ income statistics or Infometrics regional income data",
+			"sourceType": "official / regional socio-economic statistics",
+			"reasonForUse": "Income data is needed to compare housing cost growth with household earning capacity.",
+			"geographicLevel": "Regional / Territorial Authority where available",
+			"url": "https://www.stats.govt.nz/"
+		},
+		"populationMetric": {
+			"metricKey": "population",
+			"sourceName": "Stats NZ subnational population estimates",
+			"sourceType": "official population statistics",
+			"reasonForUse": "Population estimates provide contextual information for regional housing pressure.",
+			"geographicLevel": "Territorial Authority / subnational area",
+			"url": "https://www.stats.govt.nz/"
+		},
+		"affordabilityMetric": {
+			"metricKey": "affordabilityRatio",
+			"sourceName": "Calculated metric; cross-check with HUD Change in Housing Affordability Indicators",
+			"sourceType": "derived affordability measure",
+			"reasonForUse": "The ratio provides an intuitive comparison of house values against income. HUD indicators provide official context for affordability changes over time.",
+			"geographicLevel": "Territorial Authority / regional",
+			"url": "https://www.hud.govt.nz/stats-and-insights/change-in-housing-affordability-indicators/indices"
+		}
+	},
+	"methodology": {
+		"geographicMatching": {
+			"auckland": "Auckland",
+			"hamilton": "Hamilton City",
+			"christchurch": "Christchurch City",
+			"wellington": "Wellington City",
+			"queenstown": "Queenstown-Lakes District"
+		},
+		"calculationNotes": [
+			"Affordability ratio is calculated as avgPrice divided by avgIncome.",
+			"A higher affordability ratio means stronger affordability pressure.",
+			"Queenstown is represented by Queenstown-Lakes District to match official Territorial Authority data.",
+			"Use the same source series and geographic level across years to avoid mixing incompatible data."
+		],
+		"limitations": [
+			"Current hard-coded values should be checked against the listed public data sources before final submission.",
+			"If any missing yearly values are estimated, the method should be clearly documented in the report and dashboard.",
+			"Rent data from bond lodgements reflects new or active bond records and may differ from advertised rents."
+		]
+	},
+	"regions": [
+		{
+			"id": "auckland",
+			"name": "Auckland",
+			"coordinates": [-36.8485, 174.7633],
+			"officialTerritorialAuthority": "Auckland",
+			"displayName": "Auckland"
+		},
+		{
+			"id": "hamilton",
+			"name": "Hamilton",
+			"coordinates": [-37.787, 175.2793],
+			"officialTerritorialAuthority": "Hamilton City",
+			"displayName": "Hamilton"
+		},
+		{
+			"id": "wellington",
+			"name": "Wellington",
+			"coordinates": [-41.2865, 174.7762],
+			"officialTerritorialAuthority": "Wellington City",
+			"displayName": "Wellington"
+		},
+		{
+			"id": "christchurch",
+			"name": "Christchurch",
+			"coordinates": [-43.5321, 172.6362],
+			"officialTerritorialAuthority": "Christchurch City",
+			"displayName": "Christchurch"
+		},
+		{
+			"id": "queenstown",
+			"name": "Queenstown",
+			"coordinates": [-45.0312, 168.6626],
+			"officialTerritorialAuthority": "Queenstown-Lakes District",
+			"displayName": "Queenstown / Queenstown-Lakes District"
+		}
+	],
+	"historicalData": [
+		{
+			"regionId": "auckland",
+			"year": 2015,
+			"avgPrice": 750000,
+			"avgRent": 480,
+			"avgIncome": 85000,
+			"population": 1600000,
+			"affordabilityRatio": 8.82
+		},
+		{
+			"regionId": "auckland",
+			"year": 2016,
+			"avgPrice": 820000,
+			"avgRent": 510,
+			"avgIncome": 87000,
+			"population": 1615000,
+			"affordabilityRatio": 9.43
+		},
+		{
+			"regionId": "auckland",
+			"year": 2017,
+			"avgPrice": 850000,
+			"avgRent": 530,
+			"avgIncome": 89000,
+			"population": 1630000,
+			"affordabilityRatio": 9.55
+		},
+		{
+			"regionId": "auckland",
+			"year": 2018,
+			"avgPrice": 860000,
+			"avgRent": 550,
+			"avgIncome": 91000,
+			"population": 1645000,
+			"affordabilityRatio": 9.45
+		},
+		{
+			"regionId": "auckland",
+			"year": 2019,
+			"avgPrice": 880000,
+			"avgRent": 570,
+			"avgIncome": 93000,
+			"population": 1660000,
+			"affordabilityRatio": 9.46
+		},
+		{
+			"regionId": "auckland",
+			"year": 2020,
+			"avgPrice": 980000,
+			"avgRent": 600,
+			"avgIncome": 95000,
+			"population": 1680000,
+			"affordabilityRatio": 10.32
+		},
+		{
+			"regionId": "auckland",
+			"year": 2021,
+			"avgPrice": 1250000,
+			"avgRent": 640,
+			"avgIncome": 98000,
+			"population": 1700000,
+			"affordabilityRatio": 12.76
+		},
+		{
+			"regionId": "auckland",
+			"year": 2022,
+			"avgPrice": 1150000,
+			"avgRent": 660,
+			"avgIncome": 102000,
+			"population": 1715000,
+			"affordabilityRatio": 11.27
+		},
+		{
+			"regionId": "auckland",
+			"year": 2023,
+			"avgPrice": 1100000,
+			"avgRent": 690,
+			"avgIncome": 106000,
+			"population": 1730000,
+			"affordabilityRatio": 10.38
+		},
+		{
+			"regionId": "auckland",
+			"year": 2024,
+			"avgPrice": 1150000,
+			"avgRent": 720,
+			"avgIncome": 110000,
+			"population": 1745000,
+			"affordabilityRatio": 10.45
+		},
+		{
+			"regionId": "auckland",
+			"year": 2025,
+			"avgPrice": 1220000,
+			"avgRent": 750,
+			"avgIncome": 115000,
+			"population": 1760000,
+			"affordabilityRatio": 10.61
+		},
+		{
+			"regionId": "hamilton",
+			"year": 2015,
+			"avgPrice": 420000,
+			"avgRent": 350,
+			"avgIncome": 65000,
+			"population": 160000,
+			"affordabilityRatio": 6.46
+		},
+		{
+			"regionId": "hamilton",
+			"year": 2016,
+			"avgPrice": 480000,
+			"avgRent": 370,
+			"avgIncome": 67000,
+			"population": 163000,
+			"affordabilityRatio": 7.16
+		},
+		{
+			"regionId": "hamilton",
+			"year": 2017,
+			"avgPrice": 520000,
+			"avgRent": 390,
+			"avgIncome": 69000,
+			"population": 166000,
+			"affordabilityRatio": 7.54
+		},
+		{
+			"regionId": "hamilton",
+			"year": 2018,
+			"avgPrice": 550000,
+			"avgRent": 410,
+			"avgIncome": 71000,
+			"population": 169000,
+			"affordabilityRatio": 7.75
+		},
+		{
+			"regionId": "hamilton",
+			"year": 2019,
+			"avgPrice": 590000,
+			"avgRent": 430,
+			"avgIncome": 73000,
+			"population": 172000,
+			"affordabilityRatio": 8.08
+		},
+		{
+			"regionId": "hamilton",
+			"year": 2020,
+			"avgPrice": 660000,
+			"avgRent": 460,
+			"avgIncome": 75000,
+			"population": 175000,
+			"affordabilityRatio": 8.8
+		},
+		{
+			"regionId": "hamilton",
+			"year": 2021,
+			"avgPrice": 820000,
+			"avgRent": 490,
+			"avgIncome": 78000,
+			"population": 178000,
+			"affordabilityRatio": 10.51
+		},
+		{
+			"regionId": "hamilton",
+			"year": 2022,
+			"avgPrice": 790000,
+			"avgRent": 520,
+			"avgIncome": 82000,
+			"population": 181000,
+			"affordabilityRatio": 9.63
+		},
+		{
+			"regionId": "hamilton",
+			"year": 2023,
+			"avgPrice": 750000,
+			"avgRent": 550,
+			"avgIncome": 86000,
+			"population": 184000,
+			"affordabilityRatio": 8.72
+		},
+		{
+			"regionId": "hamilton",
+			"year": 2024,
+			"avgPrice": 780000,
+			"avgRent": 580,
+			"avgIncome": 90000,
+			"population": 187000,
+			"affordabilityRatio": 8.67
+		},
+		{
+			"regionId": "hamilton",
+			"year": 2025,
+			"avgPrice": 850000,
+			"avgRent": 620,
+			"avgIncome": 95000,
+			"population": 190000,
+			"affordabilityRatio": 8.95
+		},
+		{
+			"regionId": "wellington",
+			"year": 2015,
+			"avgPrice": 540000,
+			"avgRent": 450,
+			"avgIncome": 82000,
+			"population": 410000,
+			"affordabilityRatio": 6.59
+		},
+		{
+			"regionId": "wellington",
+			"year": 2016,
+			"avgPrice": 600000,
+			"avgRent": 470,
+			"avgIncome": 84000,
+			"population": 415000,
+			"affordabilityRatio": 7.14
+		},
+		{
+			"regionId": "wellington",
+			"year": 2017,
+			"avgPrice": 650000,
+			"avgRent": 500,
+			"avgIncome": 86000,
+			"population": 420000,
+			"affordabilityRatio": 7.56
+		},
+		{
+			"regionId": "wellington",
+			"year": 2018,
+			"avgPrice": 710000,
+			"avgRent": 530,
+			"avgIncome": 88000,
+			"population": 425000,
+			"affordabilityRatio": 8.07
+		},
+		{
+			"regionId": "wellington",
+			"year": 2019,
+			"avgPrice": 760000,
+			"avgRent": 560,
+			"avgIncome": 90000,
+			"population": 430000,
+			"affordabilityRatio": 8.44
+		},
+		{
+			"regionId": "wellington",
+			"year": 2020,
+			"avgPrice": 880000,
+			"avgRent": 600,
+			"avgIncome": 93000,
+			"population": 435000,
+			"affordabilityRatio": 9.46
+		},
+		{
+			"regionId": "wellington",
+			"year": 2021,
+			"avgPrice": 1120000,
+			"avgRent": 640,
+			"avgIncome": 96000,
+			"population": 440000,
+			"affordabilityRatio": 11.67
+		},
+		{
+			"regionId": "wellington",
+			"year": 2022,
+			"avgPrice": 950000,
+			"avgRent": 670,
+			"avgIncome": 100000,
+			"population": 445000,
+			"affordabilityRatio": 9.5
+		},
+		{
+			"regionId": "wellington",
+			"year": 2023,
+			"avgPrice": 860000,
+			"avgRent": 700,
+			"avgIncome": 104000,
+			"population": 450000,
+			"affordabilityRatio": 8.27
+		},
+		{
+			"regionId": "wellington",
+			"year": 2024,
+			"avgPrice": 900000,
+			"avgRent": 730,
+			"avgIncome": 108000,
+			"population": 455000,
+			"affordabilityRatio": 8.33
+		},
+		{
+			"regionId": "wellington",
+			"year": 2025,
+			"avgPrice": 980000,
+			"avgRent": 770,
+			"avgIncome": 115000,
+			"population": 460000,
+			"affordabilityRatio": 8.52
+		},
+		{
+			"regionId": "christchurch",
+			"year": 2015,
+			"avgPrice": 450000,
+			"avgRent": 390,
+			"avgIncome": 70000,
+			"population": 370000,
+			"affordabilityRatio": 6.43
+		},
+		{
+			"regionId": "christchurch",
+			"year": 2016,
+			"avgPrice": 460000,
+			"avgRent": 400,
+			"avgIncome": 72000,
+			"population": 375000,
+			"affordabilityRatio": 6.39
+		},
+		{
+			"regionId": "christchurch",
+			"year": 2017,
+			"avgPrice": 470000,
+			"avgRent": 410,
+			"avgIncome": 74000,
+			"population": 380000,
+			"affordabilityRatio": 6.35
+		},
+		{
+			"regionId": "christchurch",
+			"year": 2018,
+			"avgPrice": 485000,
+			"avgRent": 420,
+			"avgIncome": 76000,
+			"population": 385000,
+			"affordabilityRatio": 6.38
+		},
+		{
+			"regionId": "christchurch",
+			"year": 2019,
+			"avgPrice": 500000,
+			"avgRent": 430,
+			"avgIncome": 78000,
+			"population": 390000,
+			"affordabilityRatio": 6.41
+		},
+		{
+			"regionId": "christchurch",
+			"year": 2020,
+			"avgPrice": 540000,
+			"avgRent": 450,
+			"avgIncome": 80000,
+			"population": 395000,
+			"affordabilityRatio": 6.75
+		},
+		{
+			"regionId": "christchurch",
+			"year": 2021,
+			"avgPrice": 680000,
+			"avgRent": 480,
+			"avgIncome": 83000,
+			"population": 400000,
+			"affordabilityRatio": 8.19
+		},
+		{
+			"regionId": "christchurch",
+			"year": 2022,
+			"avgPrice": 740000,
+			"avgRent": 520,
+			"avgIncome": 87000,
+			"population": 405000,
+			"affordabilityRatio": 8.51
+		},
+		{
+			"regionId": "christchurch",
+			"year": 2023,
+			"avgPrice": 720000,
+			"avgRent": 550,
+			"avgIncome": 91000,
+			"population": 410000,
+			"affordabilityRatio": 7.91
+		},
+		{
+			"regionId": "christchurch",
+			"year": 2024,
+			"avgPrice": 760000,
+			"avgRent": 580,
+			"avgIncome": 95000,
+			"population": 415000,
+			"affordabilityRatio": 8.0
+		},
+		{
+			"regionId": "christchurch",
+			"year": 2025,
+			"avgPrice": 820000,
+			"avgRent": 630,
+			"avgIncome": 102000,
+			"population": 420000,
+			"affordabilityRatio": 8.04
+		},
+		{
+			"regionId": "queenstown",
+			"year": 2015,
+			"avgPrice": 720000,
+			"avgRent": 450,
+			"avgIncome": 60000,
+			"population": 35000,
+			"affordabilityRatio": 12.0
+		},
+		{
+			"regionId": "queenstown",
+			"year": 2016,
+			"avgPrice": 820000,
+			"avgRent": 480,
+			"avgIncome": 62000,
+			"population": 37000,
+			"affordabilityRatio": 13.23
+		},
+		{
+			"regionId": "queenstown",
+			"year": 2017,
+			"avgPrice": 920000,
+			"avgRent": 510,
+			"avgIncome": 64000,
+			"population": 39000,
+			"affordabilityRatio": 14.38
+		},
+		{
+			"regionId": "queenstown",
+			"year": 2018,
+			"avgPrice": 1050000,
+			"avgRent": 550,
+			"avgIncome": 66000,
+			"population": 41000,
+			"affordabilityRatio": 15.91
+		},
+		{
+			"regionId": "queenstown",
+			"year": 2019,
+			"avgPrice": 1150000,
+			"avgRent": 590,
+			"avgIncome": 68000,
+			"population": 43000,
+			"affordabilityRatio": 16.91
+		},
+		{
+			"regionId": "queenstown",
+			"year": 2020,
+			"avgPrice": 1250000,
+			"avgRent": 630,
+			"avgIncome": 70000,
+			"population": 45000,
+			"affordabilityRatio": 17.86
+		},
+		{
+			"regionId": "queenstown",
+			"year": 2021,
+			"avgPrice": 1450000,
+			"avgRent": 680,
+			"avgIncome": 73000,
+			"population": 47000,
+			"affordabilityRatio": 19.86
+		},
+		{
+			"regionId": "queenstown",
+			"year": 2022,
+			"avgPrice": 1550000,
+			"avgRent": 730,
+			"avgIncome": 77000,
+			"population": 49000,
+			"affordabilityRatio": 20.13
+		},
+		{
+			"regionId": "queenstown",
+			"year": 2023,
+			"avgPrice": 1620000,
+			"avgRent": 780,
+			"avgIncome": 82000,
+			"population": 51000,
+			"affordabilityRatio": 19.76
+		},
+		{
+			"regionId": "queenstown",
+			"year": 2024,
+			"avgPrice": 1700000,
+			"avgRent": 850,
+			"avgIncome": 88000,
+			"population": 53000,
+			"affordabilityRatio": 19.32
+		},
+		{
+			"regionId": "queenstown",
+			"year": 2025,
+			"avgPrice": 1850000,
+			"avgRent": 950,
+			"avgIncome": 95000,
+			"population": 55000,
+			"affordabilityRatio": 19.47
+		}
+	]
+}

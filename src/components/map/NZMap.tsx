@@ -2,7 +2,13 @@ import React from 'react';
 import { MapContainer, TileLayer, CircleMarker, Popup, useMap } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import { Region, HousingMetric, DashboardState } from '../../types';
-import { formatCurrency, formatCompact, AFFORDABILITY_BENCHMARK } from '../../utils/dataHelpers';
+import {
+  formatCurrency,
+  formatCompact,
+  AFFORDABILITY_BENCHMARK,
+  getAffordabilityRatio,
+  getRegionLabel,
+} from '../../utils/dataHelpers';
 
 interface NZMapProps {
   regions: Region[];
@@ -70,9 +76,14 @@ export default function NZMap({ regions, historicalData, state, onRegionSelect }
         
         {regions.map(region => {
           const metric = getMetricForRegion(region.id);
-          const value = state.activeMetric === 'price' ? metric?.avgPrice : 
-                        state.activeMetric === 'rent' ? metric?.avgRent : 
-                        (metric ? metric.avgPrice / metric.avgIncome : undefined);
+          const value =
+            state.activeMetric === 'price'
+              ? metric?.avgPrice
+              : state.activeMetric === 'rent'
+                ? metric?.avgRent
+                : metric
+                  ? getAffordabilityRatio(metric)
+                  : undefined;
           
           const isSelected = state.selectedRegionIds.includes(region.id);
 
@@ -94,8 +105,10 @@ export default function NZMap({ regions, historicalData, state, onRegionSelect }
             <div className="font-sans min-w-[220px] p-1">
               <div className="flex items-center justify-between border-b border-slate-100 pb-3 mb-4">
                 <div>
-                  <h4 className="font-bold text-slate-800 text-sm">{region.name}</h4>
-                  <p className="text-[9px] text-slate-400 font-bold uppercase tracking-widest leading-none mt-0.5">Status: {metric && (metric.avgPrice / metric.avgIncome) > 7 ? 'Critical Stress' : 'Expansionary'}</p>
+                  <h4 className="font-bold text-slate-800 text-sm">{getRegionLabel(region)}</h4>
+                  <p className="text-[9px] text-slate-400 font-bold uppercase tracking-widest leading-none mt-0.5">
+                    {metric && getAffordabilityRatio(metric) > 7 ? 'High affordability pressure' : 'Moderate pressure'}
+                  </p>
                 </div>
                 <span className="text-[10px] bg-blue-50 text-blue-600 px-2 py-1 rounded-lg font-black border border-blue-100">{currentYear}</span>
               </div>
@@ -108,8 +121,14 @@ export default function NZMap({ regions, historicalData, state, onRegionSelect }
                 <div className="flex justify-between items-center bg-slate-50 p-2 rounded-lg border border-slate-100">
                   <span className="text-slate-400 font-bold text-[10px] uppercase tracking-tighter">Affordability Ratio</span>
                   <div className="text-right">
-                    <span className={`font-black block leading-none ${(metric?.avgPrice / (metric?.avgIncome || 1)) > AFFORDABILITY_BENCHMARK * 2 ? 'text-red-500' : 'text-emerald-600'}`}>
-                      {metric ? (metric.avgPrice / metric.avgIncome).toFixed(1) : 'N/A'}x
+                    <span
+                      className={`font-black block leading-none ${
+                        metric && getAffordabilityRatio(metric) > AFFORDABILITY_BENCHMARK * 2
+                          ? 'text-red-500'
+                          : 'text-emerald-600'
+                      }`}
+                    >
+                      {metric ? getAffordabilityRatio(metric).toFixed(2) : 'N/A'}x
                     </span>
                     <span className="text-[8px] text-slate-400 mt-0.5 block opacity-70">Benchmark: 3.0x</span>
                   </div>
@@ -118,12 +137,11 @@ export default function NZMap({ regions, historicalData, state, onRegionSelect }
                 {metric && (
                   <div className="pt-2 px-1">
                     <p className="text-[10px] text-slate-600 leading-relaxed italic">
-                      { (metric.avgPrice / metric.avgIncome) > 8 
-                        ? "Severely Unaffordable: Price levels are critically disconnected from local household income."
-                        : (metric.avgPrice / metric.avgIncome) > 5
-                        ? "Moderate Stress: Affordability has declined significantly over the past 3-year cycle."
-                        : "Resilient Market: This region maintains a healthier relationship between wages and property."
-                      }
+                      {getAffordabilityRatio(metric) > 8
+                        ? 'Severely unaffordable: house values are high relative to household income in this series.'
+                        : getAffordabilityRatio(metric) > 5
+                          ? 'Elevated pressure: affordability is stretched relative to a common benchmark.'
+                          : 'Lower pressure: this region shows a less extreme value-to-income relationship in this series.'}
                     </p>
                   </div>
                 )}
