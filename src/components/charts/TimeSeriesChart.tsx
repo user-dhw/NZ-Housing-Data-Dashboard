@@ -31,7 +31,7 @@ export default function TimeSeriesChart({ regions, historicalData, state }: Time
     });
   };
 
-  const getNationalAverage = () => {
+  const getFiveLocationAverage = () => {
     return years.map(year => {
       const yearData = historicalData.filter(d => d.year === year);
       if (yearData.length === 0) return null;
@@ -69,7 +69,7 @@ export default function TimeSeriesChart({ regions, historicalData, state }: Time
       }
     },
     legend: {
-      data: ['Composite Benchmark', ...regionsToShow.map((r) => getRegionLabel(r))],
+      data: ['Five-location average', ...regionsToShow.map((r) => getRegionLabel(r))],
       bottom: 0,
       icon: 'circle',
       textStyle: { fontSize: 10, fontWeight: 'bold' },
@@ -102,10 +102,10 @@ export default function TimeSeriesChart({ regions, historicalData, state }: Time
     },
     series: [
       {
-        name: 'Composite Benchmark',
+        name: 'Five-location average',
         type: 'line',
         smooth: true,
-        data: getNationalAverage(),
+        data: getFiveLocationAverage(),
         lineStyle: { width: 2, type: 'dashed', color: '#cbd5e1' },
         itemStyle: { color: '#cbd5e1' },
         symbol: 'none',
@@ -156,6 +156,9 @@ export default function TimeSeriesChart({ regions, historicalData, state }: Time
           notMerge={true}
         />
       </div>
+      <p className="mt-3 border-t border-slate-100 pt-3 text-[10px] leading-relaxed text-slate-500">
+        Dashed line shows the average across the five selected dashboard locations, not a national average.
+      </p>
     </div>
   );
 }

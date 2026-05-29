@@ -16,6 +16,7 @@ interface RegionalComparisonChartProps {
 
 export default function RegionalComparisonChart({ regions, historicalData, state }: RegionalComparisonChartProps) {
   const currentYear = state.yearRange[1];
+  const selectedCount = state.selectedRegionIds.length;
   
   // Filter regions with data for current year
   const dataForYear = regions
@@ -99,6 +100,9 @@ export default function RegionalComparisonChart({ regions, historicalData, state
       <div className="mb-6">
         <h3 className="text-sm font-bold uppercase tracking-wider text-slate-400">Regional Rank</h3>
         <p className="text-xl font-bold text-slate-800">Comparison in {currentYear}</p>
+        <p className="mt-1 text-[10px] font-semibold uppercase tracking-wide text-slate-400">
+          {selectedCount > 0 ? `${selectedCount} selected location${selectedCount === 1 ? '' : 's'} highlighted` : 'All locations shown'}
+        </p>
       </div>
       <div className="flex-1 min-h-[400px]">
         <ReactECharts 

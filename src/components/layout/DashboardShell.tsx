@@ -60,14 +60,14 @@ export default function DashboardShell({ children, sidebar }: DashboardShellProp
         </header>
 
         {/* Content Area */}
-        <div className="flex-1 overflow-y-auto p-6 scroll-smooth bg-slate-50/50">
+        <div className="flex-1 overflow-y-auto p-6 pb-10 scroll-smooth bg-slate-50/50">
           <div className="max-w-[1400px] mx-auto">
             {children}
           </div>
         </div>
 
-        <footer className="min-h-8 shrink-0 border-t border-slate-200 bg-white px-6 py-2 md:px-8">
-          <div className="flex flex-col gap-1 text-[10px] font-semibold tracking-wide text-slate-500 md:flex-row md:items-center md:justify-between md:gap-4">
+        <footer className="shrink-0 border-t border-slate-200 bg-white px-6 py-1.5 md:px-8">
+          <div className="flex flex-col gap-1 text-[9px] font-semibold tracking-wide text-slate-500 md:flex-row md:items-center md:justify-between md:gap-4">
             <span className="truncate">
               Data references: MBIE / Tenancy Services; HUD affordability indicators; Cotality/CoreLogic; Stats NZ
             </span>

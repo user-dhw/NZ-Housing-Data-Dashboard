@@ -24,6 +24,11 @@ export default function AffordabilityChart({ regions, historicalData, state }: A
     ];
   }).filter(Boolean);
 
+  const referenceRatio = 8;
+  const incomeValues = scatterData.map((d: any) => d[0]);
+  const minIncome = Math.min(...incomeValues, 0);
+  const maxIncome = Math.max(...incomeValues, 120000);
+
   const option = {
     backgroundColor: 'transparent',
     tooltip: {
@@ -91,19 +96,11 @@ export default function AffordabilityChart({ regions, historicalData, state }: A
         markLine: {
           silent: true,
           lineStyle: { color: '#ef4444', type: 'dashed', opacity: 0.5 },
-          label: { position: 'end', formatter: 'Reference threshold', fontSize: 9 },
-          data: [{ yAxis: 800000 }, { xAxis: 80000 }]
-        },
-        markArea: {
-          silent: true,
-          itemStyle: { color: 'rgba(16, 185, 129, 0.05)' },
-          data: [[{
-            xAxis: 0,
-            yAxis: 0
-          }, {
-            xAxis: 65000,
-            yAxis: 400000
-          }]]
+          label: { position: 'end', formatter: `${referenceRatio}x income line`, fontSize: 9 },
+          data: [[
+            { coord: [minIncome, minIncome * referenceRatio] },
+            { coord: [maxIncome, maxIncome * referenceRatio] }
+          ]]
         }
       }
     ]
@@ -122,7 +119,7 @@ export default function AffordabilityChart({ regions, historicalData, state }: A
         />
       </div>
       <div className="mt-4 pt-4 border-t border-[#E5E5E5] text-[10px] text-[#9E9E9E] italic">
-        * Bubble size represents regional population
+        * Bubble size represents regional population. Dashed line marks a house value equal to 8x annual income.
       </div>
     </div>
   );

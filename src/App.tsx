@@ -81,7 +81,7 @@ export default function App() {
           className="scroll-mt-24 grid grid-cols-1 gap-6 lg:grid-cols-12 lg:items-stretch"
         >
           <div className="lg:col-span-7">
-            <ChartCaption>Shows geographic differences in housing affordability across selected cities.</ChartCaption>
+            <ChartCaption>Shows where the selected metric is most intense; clicking a marker highlights the same region across the dashboard.</ChartCaption>
             <div className="h-[460px] overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm xl:h-[520px]">
               <NZMap
                 regions={regions}
@@ -120,7 +120,7 @@ export default function App() {
           </div>
           <div>
             <ChartCaption>
-              Compares income and house prices to show affordability pressure (price divided by income).
+              Compares income and house prices to show affordability pressure; points above the dashed reference line indicate values above 8x income.
             </ChartCaption>
             <div className="h-[480px]">
               <AffordabilityChart

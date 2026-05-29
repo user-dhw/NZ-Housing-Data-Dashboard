@@ -4,7 +4,6 @@ import 'leaflet/dist/leaflet.css';
 import { Region, HousingMetric, DashboardState } from '../../types';
 import {
   formatCurrency,
-  formatCompact,
   AFFORDABILITY_BENCHMARK,
   getAffordabilityRatio,
   getRegionLabel,
@@ -37,29 +36,90 @@ export default function NZMap({ regions, historicalData, state, onRegionSelect }
     if (!value) return 5;
     if (state.activeMetric === 'price') return Math.max(5, (value / 100000) * 2);
     if (state.activeMetric === 'rent') return Math.max(5, (value / 50) * 1.5);
-    return 10; // Default for affordability
+    return Math.max(7, Math.min(22, value * 1.8));
   };
 
   const getColor = (value: number | undefined) => {
     if (!value) return '#9E9E9E';
     if (state.activeMetric === 'price') {
-      if (value > 1000000) return '#2563eb'; // Blue 600
-      if (value > 800000) return '#60a5fa'; // Blue 400
-      return '#94a3b8'; // Slate 400
+      if (value > 1000000) return '#2563eb';
+      if (value > 800000) return '#60a5fa';
+      return '#94a3b8';
     }
     if (state.activeMetric === 'rent') {
       if (value > 600) return '#2563eb';
       if (value > 500) return '#60a5fa';
       return '#94a3b8';
     }
-    return '#4f46e5'; // Indigo 600
+    if (value > 7) return '#ef4444';
+    if (value > 5) return '#f59e0b';
+    return '#10b981';
+  };
+
+  const legendItems =
+    state.activeMetric === 'affordability'
+      ? [
+          { label: '<= 5x lower pressure', color: '#10b981' },
+          { label: '5-7x high stress', color: '#f59e0b' },
+          { label: '> 7x critical', color: '#ef4444' },
+        ]
+      : state.activeMetric === 'rent'
+        ? [
+            { label: '<= $500/wk', color: '#94a3b8' },
+            { label: '$501-$600/wk', color: '#60a5fa' },
+            { label: '> $600/wk', color: '#2563eb' },
+          ]
+        : [
+            { label: '<= $800k', color: '#94a3b8' },
+            { label: '$801k-$1m', color: '#60a5fa' },
+            { label: '> $1m', color: '#2563eb' },
+          ];
+
+  const metricNote =
+    state.activeMetric === 'affordability'
+      ? 'Colour and marker size show house value-to-income pressure.'
+      : state.activeMetric === 'rent'
+        ? 'Colour and marker size show median weekly rent.'
+        : 'Colour and marker size show average house value.';
+
+  const activeMetricLabel =
+    state.activeMetric === 'affordability'
+      ? 'Affordability pressure'
+      : state.activeMetric === 'rent'
+        ? 'Rent level'
+        : 'House value';
+
+  const formatActiveValue = (value: number | undefined) => {
+    if (value == null) return 'N/A';
+    if (state.activeMetric === 'affordability') return `${value.toFixed(2)}x`;
+    return formatCurrency(value);
   };
 
   return (
     <div className="h-full w-full rounded-2xl overflow-hidden shadow-sm border border-slate-200 bg-white relative">
-      <div className="absolute top-4 left-4 z-[1000] bg-white/90 backdrop-blur-sm p-3 rounded-lg border border-slate-100 shadow-xl">
+      <div className="absolute top-4 left-14 z-[1000] bg-white/90 backdrop-blur-sm p-3 rounded-lg border border-slate-100 shadow-xl">
         <h3 className="text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-1">Year: {currentYear}</h3>
-        <p className="text-sm font-bold text-slate-800 tracking-tight">Regional Heatmap</p>
+        <p className="text-sm font-bold text-slate-800 tracking-tight">Regional Pressure Map</p>
+        <p className="mt-1 max-w-[210px] text-[10px] font-semibold leading-snug text-slate-500">
+          {metricNote}
+        </p>
+      </div>
+
+      <div className="absolute right-4 top-4 z-[1000] rounded-lg border border-slate-100 bg-white/90 p-3 shadow-xl backdrop-blur-sm">
+        <p className="mb-2 text-[9px] font-black uppercase tracking-[0.18em] text-slate-400">
+          {activeMetricLabel}
+        </p>
+        <div className="space-y-1.5">
+          {legendItems.map((item) => (
+            <div key={item.label} className="flex items-center gap-2 text-[10px] font-semibold text-slate-600">
+              <span
+                className="h-2.5 w-2.5 rounded-full border border-white shadow-sm"
+                style={{ backgroundColor: item.color }}
+              />
+              <span>{item.label}</span>
+            </div>
+          ))}
+        </div>
       </div>
 
       <MapContainer 
@@ -114,6 +174,10 @@ export default function NZMap({ regions, historicalData, state, onRegionSelect }
               </div>
               
               <div className="space-y-3 text-xs">
+                <div className="flex justify-between items-center group">
+                  <span className="text-slate-400 font-bold text-[10px] uppercase tracking-tighter">Selected Metric</span>
+                  <span className="font-bold text-slate-800">{formatActiveValue(value)}</span>
+                </div>
                 <div className="flex justify-between items-center group">
                   <span className="text-slate-400 font-bold text-[10px] uppercase tracking-tighter">Market Value</span>
                   <span className="font-bold text-slate-800">{metric ? formatCurrency(metric.avgPrice) : 'N/A'}</span>

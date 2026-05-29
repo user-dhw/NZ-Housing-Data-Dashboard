@@ -50,7 +50,7 @@ export default function AffordabilityHeatmap({ regions, historicalData, state }:
         return `<div style="font-family: sans-serif; padding: 4px;">
           <div style="font-weight: 700; margin-bottom: 4px;">${getRegionLabel(sortedRegions[params.data[1]])} | ${years[params.data[0]]}</div>
           <div style="display: flex; justify-content: space-between; gap: 20px;">
-            <span style="color: #64748b;">HPI Ratio:</span>
+            <span style="color: #64748b;">Price-to-income:</span>
             <span style="font-weight: 700;">${val === '-' ? 'N/A' : val.toFixed(2) + 'x'}</span>
           </div>
           <div style="display: flex; justify-content: space-between; gap: 20px; margin-top: 2px;">
@@ -119,7 +119,7 @@ export default function AffordabilityHeatmap({ regions, historicalData, state }:
       </div>
       <div className="mt-2 p-3 bg-slate-50 rounded-xl">
         <p className="text-[10px] text-slate-500 leading-relaxed italic">
-          * Heat intensity represents the price-to-income ratio for each selected location and year.
+          * Green-to-red intensity represents the house value-to-income ratio for each selected location and year.
         </p>
       </div>
     </div>
