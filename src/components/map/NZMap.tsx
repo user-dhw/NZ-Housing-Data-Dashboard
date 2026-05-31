@@ -1,5 +1,5 @@
 import React from 'react';
-import { MapContainer, TileLayer, CircleMarker, Popup, useMap } from 'react-leaflet';
+import { MapContainer, TileLayer, CircleMarker, Popup, useMap, useMapEvents } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
 import { Region, HousingMetric, DashboardState } from '../../types';
 import {
@@ -25,8 +25,17 @@ function MapController({ center }: { center: [number, number] }) {
   return null;
 }
 
+function PopupStateWatcher({ onPopupChange }: { onPopupChange: (isOpen: boolean) => void }) {
+  useMapEvents({
+    popupopen: () => onPopupChange(true),
+    popupclose: () => onPopupChange(false),
+  });
+  return null;
+}
+
 export default function NZMap({ regions, historicalData, state, onRegionSelect }: NZMapProps) {
   const currentYear = state.yearRange[1];
+  const [isPopupOpen, setIsPopupOpen] = React.useState(false);
   
   const getMetricForRegion = (regionId: string) => {
     return historicalData.find(d => d.regionId === regionId && d.year === currentYear);
@@ -97,7 +106,11 @@ export default function NZMap({ regions, historicalData, state, onRegionSelect }
 
   return (
     <div className="h-full w-full rounded-2xl overflow-hidden shadow-sm border border-slate-200 bg-white relative">
-      <div className="absolute top-4 left-14 z-[1000] bg-white/90 backdrop-blur-sm p-3 rounded-lg border border-slate-100 shadow-xl">
+      <div
+        className={`absolute top-4 left-14 z-[900] bg-white/90 backdrop-blur-sm p-3 rounded-lg border border-slate-100 shadow-xl transition-opacity duration-200 ${
+          isPopupOpen ? 'pointer-events-none opacity-0' : 'opacity-100'
+        }`}
+      >
         <h3 className="text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-1">Year: {currentYear}</h3>
         <p className="text-sm font-bold text-slate-800 tracking-tight">Regional Pressure Map</p>
         <p className="mt-1 max-w-[210px] text-[10px] font-semibold leading-snug text-slate-500">
@@ -105,7 +118,11 @@ export default function NZMap({ regions, historicalData, state, onRegionSelect }
         </p>
       </div>
 
-      <div className="absolute right-4 top-4 z-[1000] rounded-lg border border-slate-100 bg-white/90 p-3 shadow-xl backdrop-blur-sm">
+      <div
+        className={`absolute right-4 top-4 z-[900] rounded-lg border border-slate-100 bg-white/90 p-3 shadow-xl backdrop-blur-sm transition-opacity duration-200 ${
+          isPopupOpen ? 'pointer-events-none opacity-0' : 'opacity-100'
+        }`}
+      >
         <p className="mb-2 text-[9px] font-black uppercase tracking-[0.18em] text-slate-400">
           {activeMetricLabel}
         </p>
@@ -133,6 +150,7 @@ export default function NZMap({ regions, historicalData, state, onRegionSelect }
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
         />
         <MapController center={[-40.9006, 174.8860]} />
+        <PopupStateWatcher onPopupChange={setIsPopupOpen} />
         
         {regions.map(region => {
           const metric = getMetricForRegion(region.id);

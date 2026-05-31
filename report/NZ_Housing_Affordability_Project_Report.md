@@ -1,7 +1,8 @@
 # Visualising Housing Affordability and Market Inequality in New Zealand
 
 Project Report | COMPX532 / DSIGN532 Information Visualisation  
-Team members: Hongwei Ding and Zhaoxuan Chen  
+Project ID Code: BL  
+Team members:Hongwei Ding - 1660307; Zhaoxuan Chen - 1656356  
 Period: 2015-2025
 
 ## 1. Project Overview
@@ -28,14 +29,14 @@ The task domain is therefore comparative exploration. A user should be able to a
 
 The implemented prototype is a React and TypeScript dashboard built with Vite. ECharts is used for the main charts and Leaflet is used for the New Zealand map. The data is loaded from a local JSON file, so the prototype does not require a backend server.
 
-| View | Purpose | Interaction / Insight |
-|---|---|---|
-| Regional pressure map | Shows the five locations geographically. | Marker colour and size show the selected metric. Clicking a marker selects or deselects that region. |
-| Regional rank chart | Compares cities in the selected year. | Selected cities are highlighted so users can compare them with the full set. |
-| Time series chart | Shows change from 2015 to the selected end year. | Multiple selected cities can be compared with the five-location average. |
-| Income vs price scatter plot | Shows affordability pressure in a two-variable space. | Bubble size represents population and the dashed line marks an 8x income reference. |
-| Affordability heatmap | Shows price-to-income pressure across cities and years. | Colour intensity helps reveal long-term affordability patterns. |
-| Insight panel | Summarises selected-region changes. | Automatically updates based on selected cities and year range. |
+| View                         | Purpose                                                 | Interaction / Insight                                                                                |
+| ---------------------------- | ------------------------------------------------------- | ---------------------------------------------------------------------------------------------------- |
+| Regional pressure map        | Shows the five locations geographically.                | Marker colour and size show the selected metric. Clicking a marker selects or deselects that region. |
+| Regional rank chart          | Compares cities in the selected year.                   | Selected cities are highlighted so users can compare them with the full set.                         |
+| Time series chart            | Shows change from 2015 to the selected end year.        | Multiple selected cities can be compared with the five-location average.                             |
+| Income vs price scatter plot | Shows affordability pressure in a two-variable space.   | Bubble size represents population and the dashed line marks an 8x income reference.                  |
+| Affordability heatmap        | Shows price-to-income pressure across cities and years. | Colour intensity helps reveal long-term affordability patterns.                                      |
+| Insight panel                | Summarises selected-region changes.                     | Automatically updates based on selected cities and year range.                                       |
 
 ### Dashboard Screenshot
 
@@ -49,23 +50,23 @@ The project dataset is stored in `src/data/Updated_NZ_Housing_Data_With_Sources.
 
 Data is important for this project because the visualisation is only convincing if the values are relevant, consistent, and meaningful. A dashboard can look polished, but if the data is weak or unexplained, the audience cannot trust the insights. For this reason, the project focuses on housing indicators that are directly connected to affordability: house value, rent, income, and the house value-to-income ratio.
 
-| Metric | Source | Reason for use |
-|---|---|---|
-| `avgPrice` | Cotality/CoreLogic Home Value Index or Infometrics regional housing statistics | More suitable than simple average sale price because Home Value Index methods reduce compositional bias and cover major cities and Territorial Authorities. |
-| `avgRent` | MBIE / Tenancy Services Rental Bond Data | Official rental bond records provide a more reliable basis for rent trends than advertised asking rents. |
-| `avgIncome` | Stats NZ income statistics or Infometrics regional income data | Income data is needed to compare housing cost growth with household earning capacity. |
-| `population` | Stats NZ subnational population estimates | Population estimates provide contextual information for regional housing pressure. |
-| `affordabilityRatio` | Calculated metric; cross-check with HUD Change in Housing Affordability Indicators | The ratio provides an intuitive comparison of house values against income. HUD indicators provide official context for affordability changes over time. |
+| Metric               | Source                                                                             | Reason for use                                                                                                                                              |
+| -------------------- | ---------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `avgPrice`           | Cotality/CoreLogic Home Value Index or Infometrics regional housing statistics     | More suitable than simple average sale price because Home Value Index methods reduce compositional bias and cover major cities and Territorial Authorities. |
+| `avgRent`            | MBIE / Tenancy Services Rental Bond Data                                           | Official rental bond records provide a more reliable basis for rent trends than advertised asking rents.                                                    |
+| `avgIncome`          | Stats NZ income statistics or Infometrics regional income data                     | Income data is needed to compare housing cost growth with household earning capacity.                                                                       |
+| `population`         | Stats NZ subnational population estimates                                          | Population estimates provide contextual information for regional housing pressure.                                                                          |
+| `affordabilityRatio` | Calculated metric; cross-check with HUD Change in Housing Affordability Indicators | The ratio provides an intuitive comparison of house values against income. HUD indicators provide official context for affordability changes over time.     |
 
 ### Geographic Matching
 
 | Dashboard region | Official Territorial Authority / Area |
-|---|---|
-| Auckland | Auckland |
-| Hamilton | Hamilton City |
-| Christchurch | Christchurch City |
-| Wellington | Wellington City |
-| Queenstown | Queenstown-Lakes District |
+| ---------------- | ------------------------------------- |
+| Auckland         | Auckland                              |
+| Hamilton         | Hamilton City                         |
+| Christchurch     | Christchurch City                     |
+| Wellington       | Wellington City                       |
+| Queenstown       | Queenstown-Lakes District             |
 
 ### Calculation Notes
 
@@ -95,21 +96,21 @@ For final submission, the report and presentation should be clear that the affor
 
 ## 7. Evaluation Against Project Requirements
 
-| Requirement | How the project addresses it |
-|---|---|
-| Problem / task domain | The report explains housing affordability as a comparative visualisation problem. |
-| Design process and considerations | The dashboard uses coordinated views, filters, captions, and consistent visual encoding. |
-| Sufficient data | The JSON dataset covers five locations and eleven years, with multiple housing-related metrics. |
-| Implementation / prototype | A working React dashboard is provided with map, charts, filters, tooltips, and linked highlighting. |
-| Data sources | The report lists data sources and explains source choice, calculation notes, geographic matching, and limitations. |
-| Team contributions | The report identifies separate data/documentation and implementation/design responsibilities. |
+| Requirement                       | How the project addresses it                                                                                       |
+| --------------------------------- | ------------------------------------------------------------------------------------------------------------------ |
+| Problem / task domain             | The report explains housing affordability as a comparative visualisation problem.                                  |
+| Design process and considerations | The dashboard uses coordinated views, filters, captions, and consistent visual encoding.                           |
+| Sufficient data                   | The JSON dataset covers five locations and eleven years, with multiple housing-related metrics.                    |
+| Implementation / prototype        | A working React dashboard is provided with map, charts, filters, tooltips, and linked highlighting.                |
+| Data sources                      | The report lists data sources and explains source choice, calculation notes, geographic matching, and limitations. |
+| Team contributions                | The report identifies separate data/documentation and implementation/design responsibilities.                      |
 
 ## 8. Team Contributions
 
-| Team member | Main contribution |
-|---|---|
-| Hongwei Ding | Frontend implementation, dashboard layout, ECharts visualisations, Leaflet map, interaction design, interface polish, and demo preparation. |
-| Zhaoxuan Chen | Data source checking, metric design, affordability interpretation, project background, documentation, and presentation preparation. |
+| Team member   | Main contribution                                                                                                                           |
+| ------------- | ------------------------------------------------------------------------------------------------------------------------------------------- |
+| Hongwei Ding  | Frontend implementation, dashboard layout, ECharts visualisations, Leaflet map, interaction design, interface polish, and demo preparation. |
+| Zhaoxuan Chen | Data source checking, metric design, affordability interpretation, project background, documentation, and presentation preparation.         |
 
 ## 9. Conclusion
 
